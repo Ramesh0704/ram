@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Page</title>
+<link rel="icon" href="/icon.jpg">
+<style>
+    body {
+				font-family: Arial, sans-serif;
+				background-color: #b8e7f9;
+			
+				
+			}
+            .main {
+				margin: 0;
+				margin-left: 33%;
+				padding: 0;
+				background-color: #ececec;
+				border-radius: 15px;
+				box-shadow: 0 0 20px
+					rgba(11, 1, 1, 0.2);
+				padding: 20px;
+				width: 500px;
+			}
+			
+			.main h4 {
+				color: #3f65c7;
+				margin-bottom: 20px;
+			}
+			img{
+				float: left;
+			}
+			.edify{
+				clear:left;
+				padding: -30%;
+			}
+			.main input{
+				margin: 5%;
+			}
+			.submit{
+				color: #ffffff;
+				background-color: #1B4CFB;
+			}
+			
+</style>
+<script>
+	function navigateTo(url) {
+		window.location.href = url;
+	}
+
+	// Push a new state to the history stack
+	history.pushState(null, null, location.href);
+
+	window.addEventListener('popstate', function(event) {
+		// Redirect to the logout endpoint or any other desired page
+		window.location.href = '/user/logout';
+	});
+
+	// Optional: Prevent default action for backspace key to avoid navigating back
+	document.addEventListener('keydown', function(event) {
+		if (event.key === 'Backspace' && event.target.nodeName !== 'INPUT' && event.target.nodeName !== 'TEXTAREA') {
+			event.preventDefault();
+		}
+	});
+</script>
+
+</head>
+<body>
+	<div>
+	<img src="/icon2.png" alt="" height="0%" width="15%" >
+	<h2 class="edify" align="center">EDIFY ENGINEERING SOLUTION</h2>
+</div>
+	<br><br> <br>
+    <div class="main">
+	<h3 style="color: #123F49;" align="center">Purchase Requisition Login</h3>	
+<h4>LOGIN:</h4>
+<form action="/login" method="post">
+<table style="margin-left: 20%;">
+	<tr >
+		<td><label for="empid">Employee Id:</label><br> <br></td>
+		<td><input type="text" id="empid" name="empid" required><br> <br></td>
+	</tr>
+	<tr>
+		<td><label for="password">Password:</label><br> <br></td>
+		<td><input type="password" id="password" name="password" required><br> <br></td>
+	</tr>
+	<p style="color: red;" align="center">Password is wrong</p>
+
+	<tr>
+		<td><input type="submit" value="Login" class="submit" style="padding-left: 10%; padding-right: 10%;"> <br> <br> <br></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><a href="/signup" style="text-decoration: none;">create an new account?</a></td>
+		<td></td>
+	</tr>
+</table>
+</form>
+<br><br><br>
+
+
+</div>
+</body>
+</html>

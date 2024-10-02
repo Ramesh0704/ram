@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PR Details</title>
+    <link rel="icon" href="/icon.jpg">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #b8e7f9; }
+        .main { margin: 0 auto; padding: 20px; background-color: #ececec; border-radius: 15px; box-shadow: 0 0 20px rgba(190, 156, 18, 0.2); width: 120%; }
+        .main h2 { color: #3f65c7; margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; color: #555; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        table, th, td { border: 1px solid #ccc; }
+       
+        .no-border-table, .no-border-table th, .no-border-table td { border: none; }
+        th, td { text-align: center; }
+        .submit, button { background-color: #094af1; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        .submit:hover, button:hover { background-color: #2f4aa8; }
+        .goback { position: fixed; right: 20px; bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div>
+        <img src="/icon2.png" alt="" height="0%" width="15%">
+        <h1 class="edify" align="center">EDIFY ENGINEERING SOLUTION</h1>
+    </div>
+    <div class="main">
+        <h2>Quotation Form</h2>
+        <form id="purchaseForm" action="/submit" method="post">
+            <table class="no-border-table">
+                <tr>
+                    <td><label for="Requisition">Requisition #:</label></td>
+                    <td><input type="text" name="Requisition" required value="<%= prDetails.Requisition %>" disabled></td>
+                    <td><label for="date">Date:</label></td>
+                    <td><input type="text" name="date" required value="<%= prDetails.date %>" disabled></td>
+                </tr>
+                <tr>
+                    <td><label for="Customer">Customer Name:</label></td>
+                    <td><input type="text" name="Customer" required value="<%= prDetails.Customer %>" disabled></td>
+                    <td><label for="Requisitor">Requisitor:</label></td>
+                    <td><input type="text" name="Requisitor" required value="<%= prDetails.Requisitor %>" disabled></td>
+                </tr>
+                <tr>
+                    <td><label for="Pro_id">Project Id:</label></td>
+                    <td><input type="text" name="Pro_id" required value="<%= prDetails.Pro_id %>" disabled></td>
+                </tr>
+            </table>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Sl No</th>
+                        <th>Part No</th>
+                        <th>Description</th>
+                        <th>Manufacture No</th>
+                        <th>Supplier</th>
+                        <th>Qty</th>
+                        <th>Need by Date</th>
+                        <th>Rate</th>
+                        <th>Total</th>
+                        <th>Quote</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% descriptions.forEach((entry, index) => { %>
+                      <tr>
+                        <td><%= index + 1 %></td>
+                        <td><input type="text" class="part_no" name="part_no[]" value="<%= prDetails.Part_No[index] %>" disabled></td>
+                        <td><input type="text" class="description" name="description[]" value="<%= prDetails.description[index] %>" required disabled></td>
+                        <td><input type="text" class="manufacture" name="manufacture[]" value="<%= prDetails.manufacture[index] %>" disabled></td>
+                        <td><input type="text" class="supplier" name="supplier[]" value="<%= prDetails.supplier[index] %>" disabled></td>
+                        <td><input type="number" class="qty" name="qty[]" min="1" value="<%= prDetails.Qty[index] %>" required disabled></td>
+                        <td><input type="text" class="NEED" name="NEED[]" value="<%= prDetails.Need_by_date[index] %>" disabled></td>
+                        <td><input type="number" style="background-color:white" name="Rate[]" value="0" required></td>
+                        <td><input type="number" name="Total[]" disabled></td>
+                        <td><button type="button" class="import1" style="background-color: #094af1; padding:1px 3px; margin:10px;">Import Quote</button></td>
+                      </tr>
+                      <% }); %>
+                </tbody>
+                
+    </div>
+    <img src="/goback.png" alt="loading" width="3%" height="5%" class="goback"> 
+    
+            </table>
+            <button type="button" id="importCsv">Import CSV</button>
+            <button type="button" id="exportCsv">Export CSV</button>
+        <div style="float: right;">    Grand Total:
+     <input type="text" id="grandTotal" placeholder="Grand Total" disabled>
+    </div > <br> <br>
+            <input type="submit" value="Submit" class="submit" style="float: right;">
+        </form><br> <br> <br>
+
+    </div>
+    <script>
+        $(document).ready(function() {
+            // Function to calculate grand total
+            function calculateGrandTotal() {
+                let grandTotal = 0;
+                $("#dataTable tbody tr").each(function() {
+                    const rate = parseFloat($(this).find("input[name='Rate[]']").val());
+                    const qty = parseInt($(this).find("input[name='qty[]']").val(), 10);
+                    if (!isNaN(rate) && !isNaN(qty)) {
+                        const total = rate * qty;
+                        $(this).find("input[name='Total[]']").val(total.toFixed(2));
+                        grandTotal += total;
+                    }
+                });
+                $("#grandTotal").val(grandTotal.toFixed(2));
+            }
+
+            // Calculate grand total initially and on input change
+            calculateGrandTotal();
+
+            $("#dataTable tbody").on("input", "input[name='Rate[]'], input[name='qty[]']", function() {
+                calculateGrandTotal();
+            });
+        });
+    </script>
+     
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Export CSV functionality
+            $("#exportCsv").click(function() {
+                let csv = [];
+                const rows = $("#dataTable tbody tr");
+
+                // Get headers
+                const headers = $("#dataTable thead th").map(function() {
+                    return $(this).text().trim();
+                }).get();
+                headers.pop();
+                headers.pop(); // Remove the last two headers ("Quote" and empty space)
+                csv.push(headers.join(","));
+
+                // Get data rows
+                rows.each(function() {
+                    let rowData = [];
+                    $(this).find("td:not(:last-child)").each(function() {
+                        if ($(this).find("input").length > 0) {
+                            rowData.push($(this).find("input").val());
+                        } else {
+                            rowData.push($(this).text());
+                        }
+                    });
+                    csv.push(rowData.join(","));
+                });
+
+                // Download CSV file
+                downloadCSV(csv.join("\\n"), 'purchase_order.csv');
+            });
+
+            function downloadCSV(csv, filename) {
+                let csvFile;
+                let downloadLink;
+
+                // CSV file
+                csvFile = new Blob([csv], { type: 'text/csv' });
+
+                // Download link
+                downloadLink = document.createElement('a');
+
+                // File name
+                downloadLink.download = filename;
+
+                // Create a link to the file
+                downloadLink.href = window.URL.createObjectURL(csvFile);
+
+                // Hide download link
+                downloadLink.style.display = 'none';
+
+                // Add the link to DOM
+                document.body.appendChild(downloadLink);
+
+                // Click download link
+                downloadLink.click();
+            }
+
+            // Import CSV functionality
+            $("#importCsv").click(function() {
+                const fileInput = $('<input type="file" accept=".csv" style="display:none;">');
+                fileInput.on('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const csvData = e.target.result;
+                            parseCSV(csvData);
+                        };
+                        reader.readAsText(file);
+                    }
+                });
+                fileInput.click();
+            });
+
+            function parseCSV(csvData) {
+                const rows = csvData.split("\\n");
+                const headers = rows[0].split(",");
+
+                // Clear existing table rows
+                $("#dataTable tbody").empty();
+
+                for (let i = 1; i < rows.length; i++) {
+                    if (rows[i].trim() !== "") {
+                        const rowData = rows[i].split(",");
+                        const newRow = $("<tr>");
+
+                        headers.forEach((header, index) => {
+                            const cell = $("<td>");
+                            const input = $("<input>").attr("type", "text").val(rowData[index]).prop("disabled", true);
+                            cell.append(input);
+                            newRow.append(cell);
+                        });
+
+                        
+                        newRow.append($("<td>").append($("<button>").attr("type", "button").addClass("import1").text("Import Quote").css({ backgroundColor: '#094af1', padding: '1px 3px', margin: '10px' })));
+
+                        $("#dataTable tbody").append(newRow);
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Function to calculate total when rate changes
+            function calculateTotal() {
+                $("#dataTable tbody tr").each(function() {
+                    const rate = parseFloat($(this).find("input[name='Rate[]']").val());
+                    const qty = parseInt($(this).find("input[name='qty[]']").val(), 10);
+                    const total = rate * qty;
+                    $(this).find("input[name='Total[]']").val(total.toFixed(2));
+                });
+            }
+
+            // Event listener for rate change
+            $("#dataTable tbody").on("change", "input[name='Rate[]']", function() {
+                calculateTotal();
+            });
+            calculateTotal();
+        });
+    </script>
+    
+</body>
+</html>

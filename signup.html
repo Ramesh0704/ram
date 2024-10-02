@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+	<link rel="icon" href="/icon.jpg">
+	<script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+<style>
+     body {
+				font-family: Arial, sans-serif;
+				background-color: #b8e7f9;
+			
+				
+			}
+            .main {
+				margin: 0;
+				margin-left: 35%;
+				padding: 0;
+				background-color: #ececec;
+				border-radius: 15px;
+				box-shadow: 0 0 20px
+					rgba(11, 1, 1, 0.2);
+				padding: 20px;
+				width: 500px;
+			}
+
+			.main h2 {
+				color: #3f65c7;
+				margin-bottom: 20px;
+			}
+			img{
+				float: left;
+			}
+			.edify{
+				clear:left;
+				padding: -30%;
+			}
+			.main input{
+				margin: 5%;
+			}
+			.submit{
+				color: #ffffff;
+				background-color: #1B4CFB;
+			}
+			.goback {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            height: 9%;
+            width: 5%;
+        }
+			
+</style>
+</head>
+<body>
+	<div>
+		<img src="/icon2.png" alt="" height="0%" width="15%" >
+		<h1 class="edify" align="center">EDIFY ENGINEERING SOLUTION</h1>
+	</div>
+	<br><br> <br>
+    <div class="main">
+    <h2 align="center">Signup</h2>
+    <form action="/signup" method="post">
+		<table style="margin-left: 20%;">
+			<tr >
+				<td><label for="username">User Name:</label><br> <br></td>
+				<td><input type="text" id="username" name="username" required><br> <br></td>
+			</tr>
+			<tr >
+				<td><label for="empid">Emp Id:</label><br> <br></td>
+				<td><input type="text" id="empid" name="empid" required><br> <br></td>
+			</tr>
+			<tr >
+				<td><label for="email">Email:</label><br><br></td>
+<td><input type="email" id="email" name="email" pattern=".+@edifyengineeringsolution\.com" title="Enter an email ending with @edifyengineeringsolution.com" required><br><br></td>
+
+			</tr>
+			<tr>
+				<td><label for="password">Password:</label><br> <br></td>
+				<td><input type="password" id="password" name="password" required><br> <br></td>
+			</tr>
+			<tr>
+				<td><input type="text" id="verify" name="verify" value="0"  style="display: none;"></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center"><input type="submit" value="signup" class="submit" style="padding-left: 10%; padding-right: 10%;"> <br> <br> <br></td>
+			</tr>
+			
+		</table>
+		</form>
+</div>
+<div  >
+	<footer>
+		<button onclick="goBack()"><img src="/goback.png" alt="loading" width="3%" height="5%" class="goback"></button>
+		
+    </footer>
+
+</div>
+
+
+</body>
+</html>
